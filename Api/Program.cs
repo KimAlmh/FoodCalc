@@ -1,7 +1,10 @@
+using Api;
+
 var builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration["FoodCalcDb"];
 
 // Add services to the container.
-
+builder.Services.AddSqlServer<FoodCalcContext>(connectionString);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
