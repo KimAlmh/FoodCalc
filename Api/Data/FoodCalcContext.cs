@@ -1,7 +1,7 @@
 using Api.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Api;
+namespace Api.Data;
 
 public class FoodCalcContext : DbContext
 {

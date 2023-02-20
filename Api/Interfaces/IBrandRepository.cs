@@ -5,9 +5,10 @@ namespace Api.Interfaces;
 
 public interface IBrandRepository
 {
-    public Task<bool> SaveAllAsync();
-    public Task<Brand> CreateBrandAsync(PostBrandViewModel model);
-    public Task<BrandViewModel> GetBrandAsync(int id);
-    public Task<List<BrandViewModel>> ListBrandAsync();
-    public Task DeleteBrandAsync(int id);
+    Task<bool> SaveAllAsync();
+    Task<BrandViewModel> CreateBrandAsync(PostBrandViewModel model);
+    Task<BrandViewModel> GetBrandAsync(int id);
+    Task<List<BrandViewModel>> ListBrandAsync();
+    Task DeleteBrandAsync(int id);
+    Task<Brand> FindByNameAsync(string? brandName);
 }

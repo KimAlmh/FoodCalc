@@ -1,4 +1,5 @@
 using Api;
+using Api.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration["FoodCalcDb"];
