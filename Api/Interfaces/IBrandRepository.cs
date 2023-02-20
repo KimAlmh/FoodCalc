@@ -1,4 +1,5 @@
 ﻿using Api.Models;
+using Api.ViewModels.Brands;
 
 namespace Api.Interfaces;
 

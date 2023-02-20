@@ -1,4 +1,5 @@
 ﻿using Api.Models;
+using Api.ViewModels.FoodPerGrams;
 
 namespace Api.Interfaces;
 
