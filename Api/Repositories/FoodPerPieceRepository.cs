@@ -23,13 +23,13 @@ public class FoodPerPieceRepository : IFoodPerPieceRepository
 
     public async Task<bool> SaveAllAsync() => await _context.SaveChangesAsync() > 0;
 
-    public async Task<FoodPerPieceViewModel> CreateFoodPerPieceAsync(PostFoodPerPieceViewModel model)
+    public async Task<FoodPerPiece> CreateFoodPerPieceAsync(PostFoodPerPieceViewModel model)
     {
         var brand = await _brandRepository.FindByNameAsync(model.Brand);
         var foodPerPiece = _mapper.Map<FoodPerPiece>(model);
         foodPerPiece.Brand = brand;
         await _context.FoodPerPieces.AddAsync(foodPerPiece);
-        return _mapper.Map<FoodPerPieceViewModel>(foodPerPiece);
+        return foodPerPiece;
     }
 
     public async Task<FoodPerPieceViewModel> GetFoodPerPieceAsync(int id)
@@ -40,7 +40,7 @@ public class FoodPerPieceRepository : IFoodPerPieceRepository
         return _mapper.Map<FoodPerPieceViewModel>(foodPerPiece);
     }
 
-    public async Task<List<FoodPerPieceViewModel>> ListFoodPerPieceAsync() => 
+    public async Task<List<FoodPerPieceViewModel>> ListFoodPerPiecesAsync() => 
         await _context.FoodPerPieces.Include(i => i.Brand).Select(s => _mapper.Map<FoodPerPieceViewModel>(s)).ToListAsync();
     
 

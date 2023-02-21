@@ -6,8 +6,8 @@ namespace Api.Interfaces;
 public interface IFoodPerPieceRepository
 {
     public Task<bool> SaveAllAsync();
-    public Task<FoodPerPieceViewModel> CreateFoodPerPieceAsync(PostFoodPerPieceViewModel model);
+    public Task<FoodPerPiece> CreateFoodPerPieceAsync(PostFoodPerPieceViewModel model);
     public Task<FoodPerPieceViewModel> GetFoodPerPieceAsync(int id);
-    public Task<List<FoodPerPieceViewModel>> ListFoodPerPieceAsync();
+    public Task<List<FoodPerPieceViewModel>> ListFoodPerPiecesAsync();
     public Task DeleteFoodPerPieceAsync(int id);
 }

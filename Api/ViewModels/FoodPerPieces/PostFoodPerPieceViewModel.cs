@@ -1,7 +1,4 @@
 using Api.Enums;
-using Api.Models;
-
-namespace Api.ViewModels.FoodPerPieces;
 
 public class PostFoodPerPieceViewModel
 {

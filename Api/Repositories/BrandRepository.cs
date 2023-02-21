@@ -20,11 +20,11 @@ public class BrandRepository : IBrandRepository
 
     public async Task<bool> SaveAllAsync() => await _context.SaveChangesAsync() > 0;
 
-    public async Task<BrandViewModel> CreateBrandAsync(PostBrandViewModel model)
+    public async Task<Brand> CreateBrandAsync(PostBrandViewModel model)
     {
         var brand = _mapper.Map<Brand>(model);
         await _context.Brands.AddAsync(brand);
-        return _mapper.Map<BrandViewModel>(brand);
+        return brand;
     }
 
     public async Task<BrandViewModel> GetBrandAsync(int id)
@@ -34,7 +34,7 @@ public class BrandRepository : IBrandRepository
         return _mapper.Map<BrandViewModel>(brand);
     }
 
-    public async Task<List<BrandViewModel>> ListBrandAsync() => 
+    public async Task<List<BrandViewModel>> ListBrandsAsync() => 
         await _context.Brands.Select(s => _mapper.Map<BrandViewModel>(s)).ToListAsync();
     
     public async Task DeleteBrandAsync(int id)
