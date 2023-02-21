@@ -27,62 +27,36 @@ namespace Api.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateFoodPerGramAsync(PostFoodPerGramViewModel model)
         {
-            try
-            {
-                var foodPerGram = await _foodPerGramRepository.CreateFoodPerGramAsync(model);
-                var viewFoodPerGram = _mapper.Map<FoodPerGramViewModel>(foodPerGram);
+            var foodPerGram = await _foodPerGramRepository.CreateFoodPerGramAsync(model);
+            var viewFoodPerGram = _mapper.Map<FoodPerGramViewModel>(foodPerGram);
 
-                if (await _foodPerGramRepository.SaveAllAsync())
-                {
-                    return Created($"https://localhost:{AppData.Configuration!["port"]}/api/foodPerGram/{foodPerGram.Id}", viewFoodPerGram);
-                }
-
-                return StatusCode(500, "Could not add FoodPerGram");
-            }
-            catch (System.Exception ex)
+            if (await _foodPerGramRepository.SaveAllAsync())
             {
-                return StatusCode(500, ex.Message);
+                return Created($"https://localhost:{AppData.Configuration!["port"]}/api/foodPerGram/{foodPerGram.Id}",
+                    viewFoodPerGram);
             }
+
+            return StatusCode(500, "Could not add FoodPerGram");
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetFoodPerGramAsync(int id)
-        {
-            try
-            {
-                return Ok(await _foodPerGramRepository.GetFoodPerGramAsync(id));
-            }
-            catch (System.Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
-        }
-
+        public async Task<IActionResult> GetFoodPerGramAsync(int id) =>
+            Ok(await _foodPerGramRepository.GetFoodPerGramAsync(id));
+        
         [HttpGet()]
-        public async Task<IActionResult> ListFoodPerGramsAsync()
-        {
-            try
-            {
-                return Ok(await _foodPerGramRepository.ListFoodPerGramsAsync());
-            }
-            catch (System.Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
-        }
-
+        public async Task<IActionResult> ListFoodPerGramsAsync() =>
+            Ok(await _foodPerGramRepository.ListFoodPerGramsAsync());
+        
         [HttpDelete("{id}")]
-        public async Task<IActionResult> ListBrandesSimpleAsync(int id)
+        public async Task<IActionResult> DeleteFoodPerPieceAsync(int id)
         {
-            try
+            await _foodPerGramRepository.DeleteFoodPerGramAsync(id);
+            if (await _foodPerGramRepository.SaveAllAsync())
             {
-                await _foodPerGramRepository.DeleteFoodPerGramAsync(id);
                 return NoContent();
             }
-            catch (System.Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
+
+            return StatusCode(500, "Failed to delete Food Per Piece with id: " + id);
         }
     }
 }

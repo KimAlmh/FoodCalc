@@ -42,7 +42,6 @@ public class BrandRepository : IBrandRepository
         var brand = await _context.Brands.FindAsync(id) ??
                           throw new ArgumentException("No brand with id: " + id);
         _context.Remove(brand);
-        await SaveAllAsync();
     }
 
     public async Task<Brand> FindByNameAsync(string? brandName)

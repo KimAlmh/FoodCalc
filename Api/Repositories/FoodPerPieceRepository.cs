@@ -49,7 +49,6 @@ public class FoodPerPieceRepository : IFoodPerPieceRepository
         var foodPerPiece = await _context.FoodPerPieces.FindAsync(id) ??
                           throw new ArgumentException("No food per piece with id: " + id);
         _context.Remove(foodPerPiece);
-        await SaveAllAsync();
     }
 
     private PostFoodPerPieceViewModel MultiplyByWeight(PostFoodPerPieceViewModel model)

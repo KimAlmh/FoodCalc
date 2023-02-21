@@ -52,7 +52,6 @@ public class FoodPerGramRepository : IFoodPerGramRepository
         var foodPerGram = await _context.FoodPerGrams.FindAsync(id) ??
                           throw new ArgumentException("No food per gram with id: " + id);
         _context.Remove(foodPerGram);
-        await SaveAllAsync();
     }
 
     private FoodPerGramViewModel MultiplyBy100(FoodPerGramViewModel model)

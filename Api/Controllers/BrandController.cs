@@ -27,63 +27,35 @@ namespace Api.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateBrandAsync(PostBrandViewModel model)
         {
-            try
-            {
-                var brand = await _brandRepository.CreateBrandAsync(model);
-                var viewBrand = _mapper.Map<BrandViewModel>(brand);
+            var brand = await _brandRepository.CreateBrandAsync(model);
+            var viewBrand = _mapper.Map<BrandViewModel>(brand);
 
-                if (await _brandRepository.SaveAllAsync())
-                {
-                    return Created($"https://localhost:{AppData.Configuration!["port"]}/api/brand/{brand.Id}", viewBrand);
-                }
-
-                return StatusCode(500, "Could not add Brand");
-            }
-            catch (System.Exception ex)
+            if (await _brandRepository.SaveAllAsync())
             {
-                return StatusCode(500, ex.Message);
+                return Created($"https://localhost:{AppData.Configuration!["port"]}/api/brand/{brand.Id}", viewBrand);
             }
+
+            return StatusCode(500, "Failed to add Brand");
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetBrandAsync(int id)
-        {
-            try
-            {
-                return Ok(await _brandRepository.GetBrandAsync(id));
-            }
-            catch (System.Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
-        }
-        
+        public async Task<IActionResult> GetBrandAsync(int id) => 
+            Ok(await _brandRepository.GetBrandAsync(id));
 
         [HttpGet()]
-        public async Task<IActionResult> ListBrandsAsync()
-        {
-            try
-            {
-                return Ok(await _brandRepository.ListBrandsAsync());
-            }
-            catch (System.Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
-        }
+        public async Task<IActionResult> ListBrandsAsync() => 
+            Ok(await _brandRepository.ListBrandsAsync());
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> ListBrandesSimpleAsync(int id)
+        public async Task<IActionResult> DeleteBrand(int id)
         {
-            try
+            await _brandRepository.DeleteBrandAsync(id);
+            if (await _brandRepository.SaveAllAsync())
             {
-                await _brandRepository.DeleteBrandAsync(id);
                 return NoContent();
             }
-            catch (System.Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
+
+            return StatusCode(500, "Failed to delete Brand with id: " + id);
         }
     }
 }
