@@ -12,9 +12,10 @@ var connectionString = AppData.Configuration["FoodCalcDb"];
 // Add services to the container.
 builder.Services.AddSqlServer<FoodCalcContext>(connectionString);
 
-builder.Services.AddScoped<IBrandRepository, BrandRepository>();
-builder.Services.AddScoped<IFoodPerGramRepository, FoodPerGramRepository>();
-builder.Services.AddScoped<IFoodPerPieceRepository, FoodPerPieceRepository>();
+
+builder.Services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
+// builder.Services.AddScoped<IFoodPerGramRepository, FoodPerGramRepository>();
+// builder.Services.AddScoped<IFoodPerPieceRepository, FoodPerPieceRepository>();
 
 builder.Services.AddAutoMapper(typeof(Program));
 

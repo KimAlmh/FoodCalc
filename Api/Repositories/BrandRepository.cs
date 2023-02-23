@@ -7,46 +7,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Api.Repositories;
 
-public class BrandRepository : IBrandRepository
+public class BrandRepository : BaseCrudRepository<Brand>, IBrandRepository
 {
-    private readonly FoodCalcContext _context;
-    private readonly IMapper _mapper;
-
-    public BrandRepository(FoodCalcContext context, IMapper mapper)
+    public BrandRepository(FoodCalcContext context) : base(context)
     {
-        _context = context;
-        _mapper = mapper;
     }
 
-    public async Task<bool> SaveAllAsync() => await _context.SaveChangesAsync() > 0;
-
-    public async Task<Brand> CreateBrandAsync(PostBrandViewModel model)
-    {
-        var brand = _mapper.Map<Brand>(model);
-        await _context.Brands.AddAsync(brand);
-        return brand;
-    }
-
-    public async Task<BrandViewModel> GetBrandAsync(int id)
-    {
-        var brand = await _context.Brands
-            .FirstOrDefaultAsync(f => f.Id == id) ?? throw new ArgumentException("No brand with that id.");
-        return _mapper.Map<BrandViewModel>(brand);
-    }
-
-    public async Task<List<BrandViewModel>> ListBrandsAsync() => 
-        await _context.Brands.Select(s => _mapper.Map<BrandViewModel>(s)).ToListAsync();
-    
-    public async Task DeleteBrandAsync(int id)
-    {
-        var brand = await _context.Brands.FindAsync(id) ??
-                          throw new ArgumentException("No brand with id: " + id);
-        _context.Remove(brand);
-    }
-
-    public async Task<Brand> FindByNameAsync(string? brandName)
-    {
-        return await _context.Brands.FirstOrDefaultAsync(f => f.Name == brandName) 
-               ?? throw new ArgumentException("No brand with name: " + brandName);
-    }
+    public async Task<IEnumerable<Brand>> GetAllBrands() => await GetAll().ToListAsync();
+    public async Task<List<Brand>> GetAllBrandsByName(string name) => await GetAllByCondition(brand => brand.Name!.Equals(name)).ToListAsync();
+    public async Task<Brand> GetBrandById(int id) => await GetAllByCondition(brand => brand.Id.Equals(id)).SingleAsync();
+    public async Task<Brand> GetBrandByName(string name) => await GetAllByCondition(brand => brand.Name!.Equals(name)).SingleAsync();
+    public async Task CreateBrand(Brand brand) => await Create(brand);
+    public void UpdateBrand(Brand brand) => Update(brand);
+    public void DeleteBrand(Brand brand) => Delete(brand);
+    public async Task<bool> Save() => await SaveAll();
 }

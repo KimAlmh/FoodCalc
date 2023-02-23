@@ -1,61 +1,63 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Api.Helpers;
 using Api.Interfaces;
+using Api.Models;
 using Api.ViewModels.Brands;
 using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Api.Controllers
+namespace Api.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class BrandController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class BrandController : ControllerBase
+    private readonly IRepositoryWrapper _repository;
+    private readonly IMapper _mapper;
+
+    public BrandController(IRepositoryWrapper repository, IMapper mapper)
     {
-        private readonly IMapper _mapper;
-        private readonly IBrandRepository _brandRepository;
+        _mapper = mapper;
+        _repository = repository;
+    }
 
-        public BrandController(IBrandRepository brandRepository, IMapper mapper)
+    [HttpPost]
+    public async Task<IActionResult> CreateBrandAsync(PostBrandViewModel model)
+    {
+        var brand = _mapper.Map<Brand>(model);
+        await _repository.Brand.CreateBrand(brand);
+
+        if (await _repository.Save())
         {
-            _mapper = mapper;
-            _brandRepository = brandRepository;
+            var viewModel = _mapper.Map<BrandViewModel>(brand);
+            return CreatedAtRoute("GetById", new { id = brand.Id }, viewModel);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateBrandAsync(PostBrandViewModel model)
-        {
-            var brand = await _brandRepository.CreateBrandAsync(model);
-            var viewBrand = _mapper.Map<BrandViewModel>(brand);
+        return StatusCode(500, "Failed to add Brand");
+    }
 
-            if (await _brandRepository.SaveAllAsync())
-            {
-                return Created($"https://localhost:{AppData.Configuration!["port"]}/api/brand/{brand.Id}", viewBrand);
-            }
+    [HttpGet("{id}", Name = "GetById")]
+    public async Task<IActionResult> GetBrandByIdAsync(int id)
+    {
+        return Ok(_mapper.Map<BrandViewModel>(await _repository.Brand.GetBrandById(id)));
+    }
 
-            return StatusCode(500, "Failed to add Brand");
-        }
+    [HttpGet("name/{name}", Name = "GetByName")]
+    public async Task<IActionResult> GetBrandByNameAsync(string name)
+    {
+        return Ok(_mapper.Map<BrandViewModel>(await _repository.Brand.GetBrandByName(name)));
+    }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetBrandAsync(int id) => 
-            Ok(await _brandRepository.GetBrandAsync(id));
+    [HttpGet]
+    public async Task<IActionResult> GetAllBrandsAsync()
+    {
+        return Ok(_mapper.Map<List<BrandViewModel>>(await _repository.Brand.GetAllBrands()));
+    }
 
-        [HttpGet()]
-        public async Task<IActionResult> ListBrandsAsync() => 
-            Ok(await _brandRepository.ListBrandsAsync());
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteBrand(int id)
+    {
+        _repository.Brand.DeleteBrand(await _repository.Brand.GetBrandById(id));
+        if (await _repository.Save()) return NoContent();
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBrand(int id)
-        {
-            await _brandRepository.DeleteBrandAsync(id);
-            if (await _brandRepository.SaveAllAsync())
-            {
-                return NoContent();
-            }
-
-            return StatusCode(500, "Failed to delete Brand with id: " + id);
-        }
+        return StatusCode(500, "Failed to delete Brand with id: " + id);
     }
 }
