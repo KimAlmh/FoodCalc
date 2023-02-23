@@ -6,27 +6,18 @@ using Api.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
-AppData.Configuration = builder.Configuration;
-var connectionString = AppData.Configuration["FoodCalcDb"];
+var connectionString = builder.Configuration["FoodCalcDb"];
 
-// Add services to the container.
 builder.Services.AddSqlServer<FoodCalcContext>(connectionString);
-
-
 builder.Services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
-// builder.Services.AddScoped<IFoodPerGramRepository, FoodPerGramRepository>();
-// builder.Services.AddScoped<IFoodPerPieceRepository, FoodPerPieceRepository>();
-
 builder.Services.AddAutoMapper(typeof(Program));
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
