@@ -11,33 +11,22 @@ public class BrandRepository : BaseCrudRepository<Brand>, IBrandRepository
     {
     }
 
-    public async Task<IEnumerable<Brand>> GetAllBrands()
-    {
-        return await GetAll().ToListAsync();
-    }
+    public async Task<IEnumerable<Brand>> GetAllBrands() => await GetAll().ToListAsync();
+    
 
-    public async Task<IEnumerable<Brand>> GetAllBrandsByName(string name)
-    {
-        return await GetAllByCondition(brand => brand.Name!.Equals(name)).ToListAsync();
-    }
+    public async Task<IEnumerable<Brand>> GetAllBrandsByName(string name) => 
+        await GetAllByCondition(brand => brand.Name!.Equals(name)).ToListAsync();
+    
 
-    public async Task<Brand> GetBrandById(int id)
-    {
-        return await GetByCondition(brand => brand.Id.Equals(id));
-    }
+    public async Task<Brand> GetBrandById(int id) => await GetByCondition(brand => brand.Id.Equals(id));
+    
 
-    public async Task CreateBrand(Brand brand)
-    {
-        await Create(brand);
-    }
+    public async Task CreateBrand(Brand brand) => await Create(brand);
+    
 
-    public void UpdateBrand(Brand brand)
-    {
-        Update(brand);
-    }
+    public void UpdateBrand(Brand brand) => Update(brand);
+    
 
-    public void DeleteBrand(Brand brand)
-    {
-        Delete(brand);
-    }
+    public void DeleteBrand(Brand brand) => Delete(brand);
+    
 }

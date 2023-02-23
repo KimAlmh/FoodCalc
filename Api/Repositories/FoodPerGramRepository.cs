@@ -13,13 +13,20 @@ public class FoodPerGramRepository : BaseCrudRepository<FoodPerGram>, IFoodPerGr
 
     public async Task<IEnumerable<FoodPerGram>> GetAllFoodPerGrams()
     {
-        return await GetAll().Include(food => food.Brand).ToListAsync();
+        return await GetAll()
+            .Include(food => food.Brand)
+            .Include(food => food.FoodPerPieces)
+            .Include(food => food.SearchNames)
+            .ToListAsync();
     }
 
     public async Task<IEnumerable<FoodPerGram>> GetAllFoodPerGramsByName(string name)
     {
         return await GetAllByCondition(foodPerGram => foodPerGram.Name!.Equals(name))
-            .Include(food => food.Brand).ToListAsync();
+            .Include(food => food.Brand)
+            .Include(food => food.FoodPerPieces)
+            .Include(food => food.SearchNames)
+            .ToListAsync();
     }
 
     public async Task<FoodPerGram> GetFoodPerGramById(int id)

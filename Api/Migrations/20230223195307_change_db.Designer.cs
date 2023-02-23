@@ -3,16 +3,19 @@ using Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace FoodCalcApi.Migrations
+namespace Api.Migrations
 {
     [DbContext(typeof(FoodCalcContext))]
-    partial class FoodCalcDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230223195307_change_db")]
+    partial class change_db
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,7 +40,7 @@ namespace FoodCalcApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Brands", (string)null);
+                    b.ToTable("Brands");
                 });
 
             modelBuilder.Entity("Api.Models.FoodPerGram", b =>
@@ -86,7 +89,7 @@ namespace FoodCalcApi.Migrations
 
                     b.HasIndex("BrandId");
 
-                    b.ToTable("FoodPerGrams", (string)null);
+                    b.ToTable("FoodPerGrams");
                 });
 
             modelBuilder.Entity("Api.Models.FoodPerPiece", b =>
@@ -107,7 +110,7 @@ namespace FoodCalcApi.Migrations
 
                     b.HasIndex("FoodPerGramId");
 
-                    b.ToTable("FoodPerPieces", (string)null);
+                    b.ToTable("FoodPerPieces");
                 });
 
             modelBuilder.Entity("Api.Models.SearchName", b =>
@@ -129,7 +132,7 @@ namespace FoodCalcApi.Migrations
 
                     b.HasIndex("FoodPerGramId");
 
-                    b.ToTable("SearchNames", (string)null);
+                    b.ToTable("SearchNames");
                 });
 
             modelBuilder.Entity("Api.Models.FoodPerGram", b =>

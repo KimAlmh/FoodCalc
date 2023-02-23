@@ -2,11 +2,12 @@
 
 namespace Api.Models;
 
-public class FoodPerPiece
+public class SearchName
 {
+    
     [Required] public int Id { get; set; }
     
-    [Required] public double Weight { get; set; }
+    [Required] public string? Name { get; set; }
     
     [Required] public FoodPerGram? FoodPerGram { get; set; }
 }

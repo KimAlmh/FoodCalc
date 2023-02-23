@@ -19,7 +19,7 @@ public static class FoodPerGramUtil
         return model;
     }
 
-    public static PostFoodPerGramViewModel DivideBy100(PostFoodPerGramViewModel model)
+    public static FoodPerGram DivideBy100(FoodPerGram model)
     {
         model.Kcal /= 100;
         model.Kj /= 100;

@@ -13,13 +13,12 @@ public class FoodPerPieceRepository : BaseCrudRepository<FoodPerPiece>, IFoodPer
 
     public async Task<IEnumerable<FoodPerPiece>> GetAllFoodPerPieces()
     {
-        return await GetAll().Include(food => food.Brand).ToListAsync();
+        return await GetAll().ToListAsync();
     }
 
-    public async Task<IEnumerable<FoodPerPiece>> GetAllFoodPerPiecesByName(string name)
+    public async Task<IEnumerable<FoodPerPiece>> GetAllFoodPerPiecesByFoodPerGramId(int id)
     {
-        return await GetAllByCondition(foodPerPiece => foodPerPiece.Name!.Equals(name))
-            .Include(food => food.Brand).ToListAsync();
+        return await GetAllByCondition(food => food.FoodPerGram!.Id == id).ToListAsync();
     }
 
     public async Task<FoodPerPiece> GetFoodPerPieceById(int id)

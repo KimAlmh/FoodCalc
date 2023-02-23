@@ -7,6 +7,7 @@ public class RepositoryWrapper : IRepositoryWrapper
 {
     private readonly FoodCalcContext _repoContext;
     private IBrandRepository? _brand;
+    private ISearchNameRepository? _searchName;
     private IFoodPerGramRepository? _foodPerGram;
     private IFoodPerPieceRepository? _foodPerPiece;
 
@@ -24,6 +25,9 @@ public class RepositoryWrapper : IRepositoryWrapper
 
     public IFoodPerGramRepository FoodPerGram =>
         _foodPerGram ??= _foodPerGram = new FoodPerGramRepository(_repoContext);
+    
+    public ISearchNameRepository SearchName =>
+        _searchName ??= _searchName = new SearchNameRepository(_repoContext);
 
     public IFoodPerPieceRepository FoodPerPiece =>
         _foodPerPiece ??= _foodPerPiece = new FoodPerPieceRepository(_repoContext);

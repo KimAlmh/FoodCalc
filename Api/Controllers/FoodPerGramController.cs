@@ -24,9 +24,23 @@ public class FoodPerGramController : ControllerBase
     public async Task<IActionResult> CreateFoodPerGramAsync(PostFoodPerGramViewModel model)
     {
         var foodPerGram = _mapper.Map<FoodPerGram>(model);
-        foodPerGram = model.GramType == "G100" ? FoodPerGramUtil.MultiplyBy100(foodPerGram) : foodPerGram;
+        foodPerGram = model.GramType == "G100" ? FoodPerGramUtil.DivideBy100(foodPerGram) : foodPerGram;
         foodPerGram.Brand = await _repository.Brand.GetBrandById(model.BrandId);
         await _repository.FoodPerGram.CreateFoodPerGram(foodPerGram);
+
+        if (model.SearchNameStrings != null)
+        {
+            foreach (var name in model.SearchNameStrings)
+            {
+                var searchName = new SearchName{ FoodPerGram = foodPerGram, Name = name };
+                await _repository.SearchName.CreateSearchName(searchName);
+                foodPerGram.SearchNames?.Add(searchName);
+            }
+        }
+
+        model.FoodPerPieceWeights?.Select(async weight =>
+            await _repository.FoodPerPiece.CreateFoodPerPiece(new FoodPerPiece
+                { FoodPerGram = foodPerGram, Weight = weight }));
 
         if (!await _repository.Save()) return StatusCode(500, "Could not add Food Per Gram");
 
