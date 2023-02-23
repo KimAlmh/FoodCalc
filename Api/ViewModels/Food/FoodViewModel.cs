@@ -1,10 +1,11 @@
-﻿namespace Api.Models;
+﻿using Api.ViewModels.Brands;
 
-public abstract class Food
+namespace Api.ViewModels.Food;
+
+public abstract class FoodViewModel
 {
-    public int Id { get; set; }
     public string? Name { get; set; }
-    public Brand? Brand { get; set; }
+    public BrandViewModel? Brand { get; set; }
     public double Kcal { get; set; }
     public double Kj { get; set; }
     public double Carbohydrate { get; set; }

@@ -10,8 +10,8 @@ namespace Api.Controllers;
 [ApiController]
 public class BrandController : ControllerBase
 {
-    private readonly IRepositoryWrapper _repository;
     private readonly IMapper _mapper;
+    private readonly IRepositoryWrapper _repository;
 
     public BrandController(IRepositoryWrapper repository, IMapper mapper)
     {
@@ -25,25 +25,22 @@ public class BrandController : ControllerBase
         var brand = _mapper.Map<Brand>(model);
         await _repository.Brand.CreateBrand(brand);
 
-        if (await _repository.Save())
-        {
-            var viewModel = _mapper.Map<BrandViewModel>(brand);
-            return CreatedAtRoute("GetById", new { id = brand.Id }, viewModel);
-        }
+        if (!await _repository.Save()) return StatusCode(500, "Failed to add Brand");
 
-        return StatusCode(500, "Failed to add Brand");
+        var viewModel = _mapper.Map<BrandViewModel>(brand);
+        return CreatedAtRoute("GetByBrandId", new { id = brand.Id }, viewModel);
     }
 
-    [HttpGet("{id}", Name = "GetById")]
+    [HttpGet("{id}", Name = "GetByBrandId")]
     public async Task<IActionResult> GetBrandByIdAsync(int id)
     {
         return Ok(_mapper.Map<BrandViewModel>(await _repository.Brand.GetBrandById(id)));
     }
 
     [HttpGet("name/{name}", Name = "GetByName")]
-    public async Task<IActionResult> GetBrandByNameAsync(string name)
+    public async Task<IActionResult> GetAllBrandsByNameAsync(string name)
     {
-        return Ok(_mapper.Map<BrandViewModel>(await _repository.Brand.GetBrandByName(name)));
+        return Ok(_mapper.Map<List<BrandViewModel>>(await _repository.Brand.GetAllBrandsByName(name)));
     }
 
     [HttpGet]
@@ -59,5 +56,15 @@ public class BrandController : ControllerBase
         if (await _repository.Save()) return NoContent();
 
         return StatusCode(500, "Failed to delete Brand with id: " + id);
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> PutBrandAsync([FromBody] PostBrandViewModel model, int id)
+    {
+        var brand = await _repository.Brand.GetBrandById(id);
+        _mapper.Map(model, brand);
+        _repository.Brand.UpdateBrand(brand);
+        if (await _repository.Save()) return NoContent();
+        return StatusCode(500, "Failed to update Food Per Gram with id: " + id);
     }
 }

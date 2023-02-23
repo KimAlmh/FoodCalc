@@ -1,13 +1,13 @@
 ﻿using Api.Models;
-using Api.ViewModels.FoodPerPieces;
 
 namespace Api.Interfaces;
 
 public interface IFoodPerPieceRepository
 {
-    // public Task<bool> SaveAllAsync();
-    // public Task<FoodPerPiece> CreateFoodPerPieceAsync(PostFoodPerPieceViewModel model);
-    // public Task<FoodPerPiece> GetFoodPerPieceAsync(int id);
-    // public Task<IEnumerable<FoodPerPiece>> ListFoodPerPiecesAsync();
-    // public Task DeleteFoodPerPieceAsync(int id);
+    Task<IEnumerable<FoodPerPiece>> GetAllFoodPerPieces();
+    Task<IEnumerable<FoodPerPiece>> GetAllFoodPerPiecesByName(string name);
+    Task<FoodPerPiece> GetFoodPerPieceById(int id);
+    Task CreateFoodPerPiece(FoodPerPiece brand);
+    void UpdateFoodPerPiece(FoodPerPiece brand);
+    void DeleteFoodPerPiece(FoodPerPiece brand);
 }

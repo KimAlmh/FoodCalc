@@ -2,7 +2,4 @@
 
 public class FoodPerGram : Food
 {
-    public FoodPerGram()
-    {
-    }
 }

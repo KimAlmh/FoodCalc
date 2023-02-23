@@ -4,7 +4,7 @@ using Api.ViewModels.FoodPerGrams;
 using Api.ViewModels.FoodPerPieces;
 using AutoMapper;
 
-namespace Api.Helpers;
+namespace Api.Utils;
 
 public class AutoMapperProfile : Profile
 {
@@ -12,10 +12,10 @@ public class AutoMapperProfile : Profile
     {
         CreateMap<PostBrandViewModel, Brand>();
         CreateMap<Brand, BrandViewModel>();
-        
+
         CreateMap<PostFoodPerGramViewModel, FoodPerGram>();
         CreateMap<FoodPerGram, FoodPerGramViewModel>();
-        
+
         CreateMap<PostFoodPerPieceViewModel, FoodPerPiece>();
         CreateMap<FoodPerPiece, FoodPerPieceViewModel>();
     }

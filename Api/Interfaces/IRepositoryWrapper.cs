@@ -2,8 +2,8 @@
 
 public interface IRepositoryWrapper
 {
-    IBrandRepository Brand { get;}
-    // IFoodPerPieceRepository FoodPerPiece { get;}
-    // IFoodPerGramRepository FoodPerGram { get;}
+    IBrandRepository Brand { get; }
+    IFoodPerPieceRepository FoodPerPiece { get; }
+    IFoodPerGramRepository FoodPerGram { get; }
     Task<bool> Save();
 }
