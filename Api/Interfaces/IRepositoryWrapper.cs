@@ -7,4 +7,5 @@ public interface IRepositoryWrapper
     IFoodPerGramRepository FoodPerGram { get; }
     ISearchNameRepository SearchName { get; }
     Task<bool> Save();
+    void Clear();
 }

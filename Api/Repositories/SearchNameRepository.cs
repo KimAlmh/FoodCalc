@@ -13,14 +13,19 @@ public class SearchNameRepository : BaseCrudRepository<SearchName>, ISearchNameR
 
     public async Task<IEnumerable<SearchName>> GetAllSearchNames() => await GetAll().ToListAsync();
     
-
     public async Task<IEnumerable<SearchName>> GetAllSearchNamesByName(string name) => 
         await GetAllByCondition(searchName => searchName.Name!.Equals(name)).ToListAsync();
     
 
-    public async Task<SearchName> GetSearchNameById(int id) => await GetByCondition(searchName => searchName.Id.Equals(id));
+    public async Task<SearchName?> GetSearchNameById(int id) => await GetByCondition(searchName => searchName.Id.Equals(id));
+    public async Task CreateAllSearchNames(List<SearchName> searchNames)
+    {
+        foreach (var searchName in searchNames)
+        { 
+            await CreateSearchName(searchName);
+        }
+    }
     
-
     public async Task CreateSearchName(SearchName searchName) => await Create(searchName);
     
 

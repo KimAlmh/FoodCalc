@@ -5,7 +5,7 @@ namespace Api.Utils;
 
 public static class FoodPerGramUtil
 {
-    public static FoodPerGram MultiplyBy100(FoodPerGram model)
+    public static FoodPerGram? MultiplyBy100(FoodPerGram? model)
     {
         model.Kcal = Math.Round(model.Kcal * 100, 3);
         model.Kj = Math.Round(model.Kj * 100, 3);

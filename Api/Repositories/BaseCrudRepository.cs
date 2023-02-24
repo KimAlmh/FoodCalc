@@ -14,9 +14,9 @@ public abstract class BaseCrudRepository<T> : IBaseCrudRepository<T> where T : c
 
     protected FoodCalcContext RepositoryContext { get; set; }
 
-    public async Task<T> GetByCondition(Expression<Func<T, bool>> expression)
+    public async Task<T?> GetByCondition(Expression<Func<T, bool>> expression)
     {
-        return await RepositoryContext.Set<T>().Where(expression).SingleAsync();
+        return await RepositoryContext.Set<T>().Where(expression).SingleOrDefaultAsync();
     }
 
     public IQueryable<T> GetAll()
@@ -39,13 +39,18 @@ public abstract class BaseCrudRepository<T> : IBaseCrudRepository<T> where T : c
         await RepositoryContext.Set<T>().AddAsync(entity);
     }
 
+
     public void Update(T entity)
     {
         RepositoryContext.Set<T>().Update(entity);
     }
 
+
     public void Delete(T entity)
     {
         RepositoryContext.Set<T>().Remove(entity);
     }
+
+
+   
 }

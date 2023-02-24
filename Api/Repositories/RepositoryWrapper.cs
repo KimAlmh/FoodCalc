@@ -20,6 +20,10 @@ public class RepositoryWrapper : IRepositoryWrapper
     {
         return await _repoContext.SaveChangesAsync() > 0;
     }
+    public void Clear()
+    {
+        _repoContext.ChangeTracker.Clear();
+    }
 
     public IBrandRepository Brand => _brand ??= _brand = new BrandRepository(_repoContext);
 

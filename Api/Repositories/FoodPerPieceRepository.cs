@@ -21,7 +21,7 @@ public class FoodPerPieceRepository : BaseCrudRepository<FoodPerPiece>, IFoodPer
         return await GetAllByCondition(food => food.FoodPerGram!.Id == id).ToListAsync();
     }
 
-    public async Task<FoodPerPiece> GetFoodPerPieceById(int id)
+    public async Task<FoodPerPiece?> GetFoodPerPieceById(int id)
     {
         return await GetByCondition(foodPerPiece => foodPerPiece.Id.Equals(id));
     }
@@ -29,6 +29,14 @@ public class FoodPerPieceRepository : BaseCrudRepository<FoodPerPiece>, IFoodPer
     public async Task CreateFoodPerPiece(FoodPerPiece foodPerPiece)
     {
         await Create(foodPerPiece);
+    }
+
+    public async Task CreateAllFoodPerPiece(List<FoodPerPiece> foodPerPieces)
+    {
+        foreach (var foodPerPiece in foodPerPieces)
+        {
+             await CreateFoodPerPiece(foodPerPiece);
+        }
     }
 
     public void UpdateFoodPerPiece(FoodPerPiece foodPerPiece)

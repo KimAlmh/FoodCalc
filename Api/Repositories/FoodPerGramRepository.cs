@@ -1,4 +1,5 @@
 ﻿using Api.Data;
+using Api.Exceptions;
 using Api.Interfaces;
 using Api.Models;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +12,7 @@ public class FoodPerGramRepository : BaseCrudRepository<FoodPerGram>, IFoodPerGr
     {
     }
 
-    public async Task<IEnumerable<FoodPerGram>> GetAllFoodPerGrams()
+    public async Task<IEnumerable<FoodPerGram?>> GetAllFoodPerGrams()
     {
         return await GetAll()
             .Include(food => food.Brand)
@@ -29,9 +30,9 @@ public class FoodPerGramRepository : BaseCrudRepository<FoodPerGram>, IFoodPerGr
             .ToListAsync();
     }
 
-    public async Task<FoodPerGram> GetFoodPerGramById(int id)
+    public async Task<FoodPerGram?> GetFoodPerGramById(int id)
     {
-        return await GetByCondition(foodPerGram => foodPerGram.Id.Equals(id));
+        return await GetByCondition(foodPerGram => foodPerGram.Id.Equals(id)) ?? throw new KeyNotFoundException("No food with that id");
     }
 
     public async Task CreateFoodPerGram(FoodPerGram foodPerGram)
@@ -39,12 +40,12 @@ public class FoodPerGramRepository : BaseCrudRepository<FoodPerGram>, IFoodPerGr
         await Create(foodPerGram);
     }
 
-    public void UpdateFoodPerGram(FoodPerGram foodPerGram)
+    public void UpdateFoodPerGram(FoodPerGram? foodPerGram)
     {
         Update(foodPerGram);
     }
 
-    public void DeleteFoodPerGram(FoodPerGram foodPerGram)
+    public void DeleteFoodPerGram(FoodPerGram? foodPerGram)
     {
         Delete(foodPerGram);
     }

@@ -18,15 +18,15 @@ public class BrandRepository : BaseCrudRepository<Brand>, IBrandRepository
         await GetAllByCondition(brand => brand.Name!.Equals(name)).ToListAsync();
     
 
-    public async Task<Brand> GetBrandById(int id) => await GetByCondition(brand => brand.Id.Equals(id));
+    public async Task<Brand?> GetBrandById(int id) => await GetByCondition(brand => brand.Id.Equals(id));
     
 
     public async Task CreateBrand(Brand brand) => await Create(brand);
     
 
-    public void UpdateBrand(Brand brand) => Update(brand);
+    public void UpdateBrand(Brand? brand) => Update(brand);
     
 
-    public void DeleteBrand(Brand brand) => Delete(brand);
+    public void DeleteBrand(Brand? brand) => Delete(brand);
     
 }

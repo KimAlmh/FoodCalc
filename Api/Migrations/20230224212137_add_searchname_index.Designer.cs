@@ -3,16 +3,19 @@ using Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace FoodCalcApi.Migrations
+namespace Api.Migrations
 {
     [DbContext(typeof(FoodCalcContext))]
-    partial class FoodCalcDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230224212137_add_searchname_index")]
+    partial class add_searchname_index
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -106,9 +109,6 @@ namespace FoodCalcApi.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("FoodPerGramId");
-
-                    b.HasIndex("Weight", "FoodPerGramId")
-                        .IsUnique();
 
                     b.ToTable("FoodPerPieces");
                 });

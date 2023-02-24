@@ -1,11 +1,12 @@
 using Api.ViewModels.Brands;
 using Api.ViewModels.FoodPerPieces;
-using Api.ViewModels.SearchName;
+using Api.ViewModels.SearchNames;
 
 namespace Api.ViewModels.FoodPerGrams;
 
 public class FoodPerGramViewModel
 {
+    public int Id { get; set; }
     public string? Name { get; set; }
     public BrandViewModel? Brand { get; set; }
     public double Kcal { get; set; }
@@ -18,5 +19,5 @@ public class FoodPerGramViewModel
     public double SaturatedFat { get; set; }
     public double Salt { get; set; }
     public ICollection<SearchNameViewModel>? SearchNames { get; set; }
-    public ICollection<FoodPerPieceViewModel>? FoodPerPieces { get; set; }
+    public ICollection<FoodPerPieceViewModel>? PieceWeights { get; set; }
 }

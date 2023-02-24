@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using Api.Data;
+using Api.Exceptions;
 using Api.Interfaces;
 using Api.Repositories;
 
@@ -21,12 +22,13 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+// app.UseMiddleware<ErrorHandlerMiddleware>();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
