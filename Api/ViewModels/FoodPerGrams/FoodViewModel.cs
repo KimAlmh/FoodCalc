@@ -4,7 +4,7 @@ using Api.ViewModels.SearchNames;
 
 namespace Api.ViewModels.FoodPerGrams;
 
-public class FoodPerGramViewModel
+public class FoodViewModel
 {
     public int Id { get; set; }
     public string? Name { get; set; }
@@ -19,5 +19,5 @@ public class FoodPerGramViewModel
     public double SaturatedFat { get; set; }
     public double Salt { get; set; }
     public ICollection<SearchNameViewModel>? SearchNames { get; set; }
-    public ICollection<FoodPerPieceViewModel>? PieceWeights { get; set; }
+    public ICollection<PieceViewModel>? Pieces { get; set; }
 }

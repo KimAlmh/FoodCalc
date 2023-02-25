@@ -10,8 +10,8 @@ public class FoodCalcContext : DbContext
     {
     }
 
-    public DbSet<FoodPerGram> FoodPerGrams { get; set; } = null!;
-    public DbSet<FoodPerPiece> FoodPerPieces { get; set; } = null!;
+    public DbSet<Food> Food { get; set; } = null!;
+    public DbSet<Piece> Pieces { get; set; } = null!;
     public DbSet<Brand> Brands { get; set; } = null!;
     public DbSet<SearchName> SearchNames { get; set; } = null!;
     

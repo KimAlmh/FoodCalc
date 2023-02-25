@@ -34,6 +34,11 @@ public abstract class BaseCrudRepository<T> : IBaseCrudRepository<T> where T : c
         return await RepositoryContext.SaveChangesAsync() > 0;
     }
 
+    public async Task<bool> CheckIfExists(Expression<Func<T, bool>> expression)
+    {
+        return await RepositoryContext.Set<T>().AnyAsync(expression);
+    }
+
     public async Task Create(T entity)
     {
         await RepositoryContext.Set<T>().AddAsync(entity);

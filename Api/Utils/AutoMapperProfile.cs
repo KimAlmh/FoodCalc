@@ -14,17 +14,17 @@ public class AutoMapperProfile : Profile
         CreateMap<PostBrandViewModel, Brand>();
         CreateMap<Brand, BrandViewModel>();
 
-        CreateMap<PostFoodPerGramViewModel, FoodPerGram>()
+        CreateMap<PostFoodViewModel, Food>()
             .ForMember(dest => dest.SearchNames, act => act.Ignore())
-            .ForMember(dest => dest.FoodPerPieces, act => act.Ignore());
-        CreateMap<FoodPerGram, FoodPerGramViewModel>()
-            .ForMember(dest => dest.PieceWeights,
-                act => act.MapFrom(src => src.FoodPerPieces));
+            .ForMember(dest => dest.Pieces, act => act.Ignore());
+        CreateMap<Food, FoodViewModel>()
+            .ForMember(dest => dest.Pieces,
+                act => act.MapFrom(src => src.Pieces));
 
         CreateMap<SearchName, SearchNameViewModel>();
         CreateMap<PostSearchNameViewModel, SearchName>();
 
         // CreateMap<PostFoodPerPieceViewModel, FoodPerPiece>();
-        CreateMap<FoodPerPiece, FoodPerPieceViewModel>();
+        CreateMap<Piece, PieceViewModel>();
     }
 }

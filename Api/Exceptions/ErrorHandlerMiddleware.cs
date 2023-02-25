@@ -1,5 +1,8 @@
 ﻿using System.Net;
 using System.Text.Json;
+using Api.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api.Exceptions;
@@ -19,6 +22,16 @@ public class ErrorHandlerMiddleware
         {
             await _next(context);
         }
+        catch (UniqueConstraintException error)
+        {
+            var url = $"{context.Request.Scheme}://{context.Request.Host.Value}{context.Request.Path.Value}{error.Id}";
+                var response = context.Response;
+                response.ContentType = "application/json";
+                response.StatusCode = 303;
+                var result = JsonSerializer.Serialize(new
+                    { message = error.Message, location = url });
+                await response.WriteAsync(result);
+        }
         catch (Exception error)
         {
             var response = context.Response;
@@ -32,12 +45,9 @@ public class ErrorHandlerMiddleware
                 KeyNotFoundException e =>
                     (int)HttpStatusCode.NotFound,
                 
-                DbUpdateException e =>
-                    (int)HttpStatusCode.BadRequest,
-                
                 _ => (int)HttpStatusCode.InternalServerError
             };
-
+            
             var result = JsonSerializer.Serialize(new { message = error?.Message });
             await response.WriteAsync(result);
         }

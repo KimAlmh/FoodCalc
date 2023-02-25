@@ -4,7 +4,7 @@ using Api.Utils;
 
 namespace Api.ViewModels.FoodPerGrams;
 
-public class PostFoodPerGramViewModel
+public class PostFoodViewModel
 {
     [Required] public string? Name { get; set; }
 
@@ -33,10 +33,6 @@ public class PostFoodPerGramViewModel
     [Required]
     [RegularExpression(@"^G1(?:00)?$", ErrorMessage = "Must be 'G1' for 1 gram or 'G100' for 100 gram")]
     public string? GramType { get; set; }
-
-    // [ListMinElements(ErrorMessage = "Must contain 1 element")]
     public ICollection<string>? SearchNames { get; set; } = new List<string>();
-    
-    // [ListMinElements(ErrorMessage = "Must contain 1 element")]
     public ICollection<double>? PieceWeights { get; set; } = new List<double>();
 }

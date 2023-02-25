@@ -18,6 +18,8 @@ public class SearchNameRepository : BaseCrudRepository<SearchName>, ISearchNameR
     
 
     public async Task<SearchName?> GetSearchNameById(int id) => await GetByCondition(searchName => searchName.Id.Equals(id));
+    public async Task<SearchName?> GetSearchNameByNameAndFoodId(int id, string name) => await GetByCondition(searchName => searchName.Name!.Equals(name) && searchName.FoodId.Equals(id));
+
     public async Task CreateAllSearchNames(List<SearchName> searchNames)
     {
         foreach (var searchName in searchNames)

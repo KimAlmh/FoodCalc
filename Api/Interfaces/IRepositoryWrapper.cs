@@ -3,8 +3,8 @@
 public interface IRepositoryWrapper
 {
     IBrandRepository Brand { get; }
-    IFoodPerPieceRepository FoodPerPiece { get; }
-    IFoodPerGramRepository FoodPerGram { get; }
+    IPieceRepository Piece { get; }
+    IFoodRepository Food { get; }
     ISearchNameRepository SearchName { get; }
     Task<bool> Save();
     void Clear();

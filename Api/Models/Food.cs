@@ -1,12 +1,16 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
 
 namespace Api.Models;
 
-public class FoodPerGram
+[Index(nameof(Name), nameof(BrandId), IsUnique = true)]
+
+public class Food
 {
     [Required] public int Id { get; set; }
 
     [Required] public string? Name { get; set; }
+    [Required] public int BrandId { get; set; }
 
     [Required] public Brand? Brand { get; set; }
 
@@ -47,5 +51,5 @@ public class FoodPerGram
     public double Salt { get; set; }
 
     public ICollection<SearchName>? SearchNames { get; set; } = new List<SearchName>();
-    public ICollection<FoodPerPiece>? FoodPerPieces { get; set; } = new List<FoodPerPiece>();
+    public ICollection<Piece>? Pieces { get; set; } = new List<Piece>();
 }

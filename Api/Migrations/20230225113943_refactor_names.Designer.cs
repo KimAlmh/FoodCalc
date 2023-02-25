@@ -3,16 +3,19 @@ using Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace FoodCalcApi.Migrations
+namespace Api.Migrations
 {
     [DbContext(typeof(FoodCalcContext))]
-    partial class FoodCalcDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230225113943_refactor_names")]
+    partial class refactor_names
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
