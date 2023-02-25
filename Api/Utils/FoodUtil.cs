@@ -1,5 +1,4 @@
 ﻿using Api.Models;
-using Api.ViewModels.FoodPerGrams;
 
 namespace Api.Utils;
 
@@ -32,19 +31,18 @@ public static class FoodUtil
         model.Salt /= 100;
         return model;
     }
+
     public static Piece MultiplyByWeight(Piece model)
     {
-        if (model == null) throw new ArgumentNullException(nameof(model));
-        var weightMultiplier = model.Weight / 100;
-        model.Food.Kcal = Math.Round(model.Food.Kcal * weightMultiplier, 3);
-        model.Food.Kj = Math.Round(model.Food.Kj * weightMultiplier, 3);
-        model.Food.Carbohydrate = Math.Round(model.Food.Carbohydrate * weightMultiplier, 3);
-        model.Food.Fat = Math.Round(model.Food.Fat * weightMultiplier, 3);
-        model.Food.Protein = Math.Round(model.Food.Protein * weightMultiplier, 3);
-        model.Food.Sugar = Math.Round(model.Food.Sugar * weightMultiplier, 3);
-        model.Food.Fibre = Math.Round(model.Food.Fibre * weightMultiplier, 3);
-        model.Food.SaturatedFat = Math.Round(model.Food.SaturatedFat * weightMultiplier, 3);
-        model.Food.Salt = Math.Round(model.Food.Salt * weightMultiplier, 3);
+        model.Food!.Kcal = Math.Round(model.Food.Kcal * model.Weight, 3);
+        model.Food.Kj = Math.Round(model.Food.Kj * model.Weight, 3);
+        model.Food.Carbohydrate = Math.Round(model.Food.Carbohydrate * model.Weight, 3);
+        model.Food.Fat = Math.Round(model.Food.Fat * model.Weight, 3);
+        model.Food.Protein = Math.Round(model.Food.Protein * model.Weight, 3);
+        model.Food.Sugar = Math.Round(model.Food.Sugar * model.Weight, 3);
+        model.Food.Fibre = Math.Round(model.Food.Fibre * model.Weight, 3);
+        model.Food.SaturatedFat = Math.Round(model.Food.SaturatedFat * model.Weight, 3);
+        model.Food.Salt = Math.Round(model.Food.Salt * model.Weight, 3);
         return model;
     }
 }

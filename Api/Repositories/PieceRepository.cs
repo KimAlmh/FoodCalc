@@ -16,19 +16,27 @@ public class PieceRepository : BaseCrudRepository<Piece>, IPieceRepository
         return await GetAll().ToListAsync();
     }
 
-    public async Task<IEnumerable<Piece>> GetAllPiecesByFoodId(int id)
+    public async Task<IEnumerable<Piece>> GetAllPiecesByFoodId(int foodId)
     {
-        return await GetAllByCondition(food => food.Food!.Id == id).ToListAsync();
+        return await GetAllByCondition(piece => piece.FoodId == foodId).Include(i => i.Food).ThenInclude(f => f!.Brand).ToListAsync();
     }
 
     public async Task<Piece?> GetPieceById(int id)
     {
-        return await GetByCondition(foodPerPiece => foodPerPiece.Id.Equals(id));
+        return await GetAllByCondition(piece => piece.Id.Equals(id)).Include(p => p.Food).ThenInclude(f => f!.Brand)
+            .FirstOrDefaultAsync() ?? throw new KeyNotFoundException("No Piece with that id");
+    }
+    
+    public async Task<Piece?> GetPieceByFoodId(int foodId)
+    {
+        return await GetAllByCondition(piece => piece.FoodId.Equals(foodId)).Include(p => p.Food).ThenInclude(f => f!.Brand)
+            .FirstOrDefaultAsync() ?? throw new KeyNotFoundException("No Piece with that id");
     }
 
-    public async Task<Piece?> GetPieceByFoodIdAndWeight(int id, double weight)
+    public async Task<Piece?> GetPieceByFoodIdAndWeight(int foodId, double weight)
     {
-        return await GetByCondition(foodPerPiece => foodPerPiece.Weight.Equals(weight) && foodPerPiece.FoodId.Equals(id));
+        return await GetAllByCondition(piece => piece.Weight.Equals(weight) && piece.FoodId.Equals(foodId))
+            .FirstOrDefaultAsync();
     }
 
     public async Task CreatePiece(Piece piece)
@@ -36,12 +44,9 @@ public class PieceRepository : BaseCrudRepository<Piece>, IPieceRepository
         await Create(piece);
     }
 
-    public async Task CreateAllPieces(List<Piece> foodPerPieces)
+    public async Task CreateAllPieces(List<Piece> pieces)
     {
-        foreach (var foodPerPiece in foodPerPieces)
-        {
-             await CreatePiece(foodPerPiece);
-        }
+        foreach (var piece in pieces) await CreatePiece(piece);
     }
 
     public void UpdatePiece(Piece piece)

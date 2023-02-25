@@ -32,22 +32,16 @@ public class FoodRepository : BaseCrudRepository<Food>, IFoodRepository
 
     public async Task<Food?> GetFoodById(int id)
     {
-        return await GetByCondition(food => food.Id.Equals(id)) ?? throw new KeyNotFoundException("No food with that id");
-    }
-
-    public async Task<Food?> GetFoodByNameAndBrandId(string name, int brandId)
-    {
-        return await GetByCondition(food => food.Name!.Equals(name) && food.BrandId.Equals(brandId));
+        return await GetAllByCondition(food => food.Id.Equals(id))
+            .Include(i => i.Brand)
+            .Include(f => f.SearchNames)
+            .Include(f => f.Pieces)
+            .FirstOrDefaultAsync() ?? throw new FoodNotFoundException("No food with that id");
     }
 
     public async Task CreateFood(Food food)
     {
         await Create(food);
-    }
-
-    public async Task<bool> CheckIfExistsByNameAndBrandId(string name, int brandId)
-    {
-        return await CheckIfExists(food => food.Name == name && food.BrandId == brandId);
     }
 
     public void UpdateFood(Food food)
@@ -58,5 +52,17 @@ public class FoodRepository : BaseCrudRepository<Food>, IFoodRepository
     public void DeleteFood(Food food)
     {
         Delete(food);
+    }
+
+    public async Task CheckConstraint(string name, int brandId)
+    {
+        var food = await GetFoodByNameAndBrandId(name, brandId);
+        if (food != null) throw new UniqueConstraintException("Food with that brand and name already exists", food.Id);
+    }
+
+    public async Task<Food?> GetFoodByNameAndBrandId(string name, int brandId)
+    {
+        return await GetAllByCondition(food => food.Name!.Equals(name) && food.BrandId.Equals(brandId))
+            .FirstOrDefaultAsync();
     }
 }

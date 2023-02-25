@@ -1,12 +1,11 @@
 using System.ComponentModel.DataAnnotations;
-using Api.Models;
-using Api.Utils;
+using Api.ViewModels.Pieces;
 
 namespace Api.ViewModels.FoodPerGrams;
 
 public class PostFoodViewModel
 {
-    [Required] public string? Name { get; set; }
+    [Required] public string Name { get; set; }
 
     [Required]
     [Range(1, int.MaxValue, ErrorMessage = "The value must be greater than zero.")]
@@ -33,6 +32,7 @@ public class PostFoodViewModel
     [Required]
     [RegularExpression(@"^G1(?:00)?$", ErrorMessage = "Must be 'G1' for 1 gram or 'G100' for 100 gram")]
     public string? GramType { get; set; }
+
     public ICollection<string>? SearchNames { get; set; } = new List<string>();
-    public ICollection<double>? PieceWeights { get; set; } = new List<double>();
+    public ICollection<PostPieceViewModel> Pieces { get; set; } = null!;
 }
