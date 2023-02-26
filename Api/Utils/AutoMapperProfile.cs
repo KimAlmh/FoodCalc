@@ -1,6 +1,6 @@
 ﻿using Api.Models;
 using Api.ViewModels.Brands;
-using Api.ViewModels.FoodPerGrams;
+using Api.ViewModels.Food;
 using Api.ViewModels.Pieces;
 using Api.ViewModels.SearchNames;
 using AutoMapper;
@@ -20,8 +20,6 @@ public class AutoMapperProfile : Profile
         CreateMap<Food, FoodViewModel>()
             .ForMember(dest => dest.Brand,
                 act => act.MapFrom(src => src.Brand!.Name))
-            .ForMember(dest => dest.Pieces,
-                act => act.MapFrom(src => src.Pieces!.Select(s => s.Weight)))
             .ForMember(dest => dest.SearchNames,
                 act => act.MapFrom(src => src.SearchNames!.Select(s => s.Name)));
 
@@ -31,6 +29,7 @@ public class AutoMapperProfile : Profile
 
         // CreateMap<PostFoodPerPieceViewModel, FoodPerPiece>();
         CreateMap<Piece, PieceViewModel>();
+        CreateMap<Piece, SimplePieceViewModel>();
         // CreateMap<Food, PieceViewModel>();
     }
 }

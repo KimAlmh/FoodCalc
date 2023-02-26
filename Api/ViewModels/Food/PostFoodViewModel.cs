@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Api.ViewModels.Pieces;
 
-namespace Api.ViewModels.FoodPerGrams;
+namespace Api.ViewModels.Food;
 
 public class PostFoodViewModel
 {

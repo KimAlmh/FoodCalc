@@ -1,7 +1,7 @@
 using Api.Interfaces;
 using Api.Models;
 using Api.Utils;
-using Api.ViewModels.FoodPerGrams;
+using Api.ViewModels.Food;
 using Api.ViewModels.Pieces;
 using Api.ViewModels.SearchNames;
 using AutoMapper;

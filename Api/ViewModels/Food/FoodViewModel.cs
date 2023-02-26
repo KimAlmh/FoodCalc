@@ -1,4 +1,6 @@
-namespace Api.ViewModels.FoodPerGrams;
+using Api.ViewModels.Pieces;
+
+namespace Api.ViewModels.Food;
 
 public class FoodViewModel
 {
@@ -14,6 +16,6 @@ public class FoodViewModel
     public double Fibre { get; set; }
     public double SaturatedFat { get; set; }
     public double Salt { get; set; }
-    public ICollection<string>? SearchNames { get; set; }
-    public ICollection<string>? Pieces { get; set; }
+    public ICollection<string>? SearchNames { get; set; }  = new List<string>();
+    public ICollection<SimplePieceViewModel>? Pieces { get; set; }  = new List<SimplePieceViewModel>();
 }
