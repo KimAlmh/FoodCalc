@@ -18,7 +18,7 @@ public class PieceRepository : BaseCrudRepository<Piece>, IPieceRepository
 
     public async Task<IEnumerable<Piece>> GetAllPiecesByFoodId(int foodId)
     {
-        return await GetAllByCondition(piece => piece.FoodId == foodId).Include(i => i.Food).ThenInclude(f => f!.Brand).ToListAsync();
+        return await GetAllByCondition(piece => piece.FoodId == foodId).ToListAsync();
     }
 
     public async Task<Piece?> GetPieceById(int id)

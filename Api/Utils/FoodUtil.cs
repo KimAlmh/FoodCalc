@@ -1,10 +1,35 @@
-﻿using Api.Models;
+﻿using Api.Enums;
+using Api.Models;
+using Api.ViewModels.Food;
+using AutoMapper;
 
 namespace Api.Utils;
 
 public static class FoodUtil
 {
-    public static Food? MultiplyBy100(Food? model)
+
+    public static Food FormatToEntity(PostFoodViewModel model, IMapper mapper)
+    {
+        if (model.Type == "PD") model.Pieces = null;
+        
+        var food = mapper.Map<Food>(model);
+        return (model.Type switch
+        {
+            "G1" or "PD" => food,
+            "G100" => DivideBy100(food),
+            _ => throw new ArgumentException("Invalid type: " + model.Type)
+        })!;
+    }
+    public static FoodViewModel FormatToViewModel(Food food, double weight, IMapper mapper)
+    {
+        if (food.FoodType == FoodType.Gram)
+        {
+            food = MultiplyByWeight(food, weight);
+        }
+        
+        return mapper.Map<FoodViewModel>(food);
+    }
+    public static Food MultiplyBy100(Food model)
     {
         model.Kcal = Math.Round(model.Kcal * 100, 3);
         model.Kj = Math.Round(model.Kj * 100, 3);
@@ -32,17 +57,17 @@ public static class FoodUtil
         return model;
     }
 
-    public static Piece MultiplyByWeight(Piece model)
+    public static Food MultiplyByWeight(Food model, double weight)
     {
-        model.Food!.Kcal = Math.Round(model.Food.Kcal * model.Weight, 3);
-        model.Food.Kj = Math.Round(model.Food.Kj * model.Weight, 3);
-        model.Food.Carbohydrate = Math.Round(model.Food.Carbohydrate * model.Weight, 3);
-        model.Food.Fat = Math.Round(model.Food.Fat * model.Weight, 3);
-        model.Food.Protein = Math.Round(model.Food.Protein * model.Weight, 3);
-        model.Food.Sugar = Math.Round(model.Food.Sugar * model.Weight, 3);
-        model.Food.Fibre = Math.Round(model.Food.Fibre * model.Weight, 3);
-        model.Food.SaturatedFat = Math.Round(model.Food.SaturatedFat * model.Weight, 3);
-        model.Food.Salt = Math.Round(model.Food.Salt * model.Weight, 3);
+        model.Kcal = Math.Round(model.Kcal * weight, 3);
+        model.Kj = Math.Round(model.Kj * weight, 3);
+        model.Carbohydrate = Math.Round(model.Carbohydrate * weight, 3);
+        model.Fat = Math.Round(model.Fat * weight, 3);
+        model.Protein = Math.Round(model.Protein * weight, 3);
+        model.Sugar = Math.Round(model.Sugar * weight, 3);
+        model.Fibre = Math.Round(model.Fibre * weight, 3);
+        model.SaturatedFat = Math.Round(model.SaturatedFat * weight, 3);
+        model.Salt = Math.Round(model.Salt * weight, 3);
         return model;
     }
 }

@@ -4,5 +4,5 @@ namespace Api.ViewModels.SearchNames;
 
 public class PostSearchNameViewModel
 {
-    [Required] public IEnumerable<string>? Names { get; set; }
+    [Required] public string Name { get; set; } = null!;
 }

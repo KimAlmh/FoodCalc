@@ -30,7 +30,7 @@ public class FoodRepository : BaseCrudRepository<Food>, IFoodRepository
             .ToListAsync();
     }
 
-    public async Task<Food?> GetFoodById(int id)
+    public async Task<Food> GetFoodById(int id)
     {
         return await GetAllByCondition(food => food.Id.Equals(id))
             .Include(i => i.Brand)

@@ -15,5 +15,5 @@ public class Piece
     public double Weight { get; set; }
 
     [Required] public int FoodId { get; set; }
-    [Required] public Food? Food { get; set; }
+    [Required] public Food Food { get; set; } = null!;
 }

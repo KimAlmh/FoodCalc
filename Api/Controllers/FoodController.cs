@@ -29,15 +29,14 @@ public class FoodController : ControllerBase
     {
         await _repository.Food.CheckConstraint(model.Name, model.BrandId);
 
-        var food = _mapper.Map<Food>(model);
-        food = model.GramType == "G100" ? FoodUtil.DivideBy100(food) : food;
+        var food = FoodUtil.FormatToEntity(model, _mapper);
         food.Brand = await _repository.Brand.GetBrandById(model.BrandId);
 
         await _repository.Food.CreateFood(food);
         if (!await _repository.Save()) return StatusCode(500, "Could not add Food");
 
         if (!model.SearchNames.IsNullOrEmpty())
-            await AddSearchNamesToFoodPerGram(new PostSearchNameViewModel { Names = model.SearchNames },
+            await AddSearchNamesToFoodPerGram(model.SearchNames,
                 food.Id);
 
         if (!model.Pieces.IsNullOrEmpty())
@@ -47,12 +46,11 @@ public class FoodController : ControllerBase
         return CreatedAtRoute("GetByFoodId", new { id = food.Id }, viewModel);
     }
 
-    [HttpGet("{id}", Name = "GetByFoodId")]
-    public async Task<IActionResult> GetFoodAsync(int id)
+    [HttpGet("{id:int}", Name = "GetByFoodId")]
+    public async Task<IActionResult> GetFoodAsync(int id, int format=100)
     {
         var food = await _repository.Food.GetFoodById(id);
-        food = FoodUtil.MultiplyBy100(food);
-        return Ok(_mapper.Map<FoodViewModel>(food));
+        return Ok(FoodUtil.FormatToViewModel(food!, format, _mapper));
     }
 
     [HttpGet]
@@ -79,7 +77,7 @@ public class FoodController : ControllerBase
         return StatusCode(500, "Failed to delete Food with id: " + id);
     }
 
-    [HttpPut("{id}")]
+    [HttpPut("{id:int}")]
     public async Task<IActionResult> PutFoodAsync(PostFoodViewModel model, int id)
     {
         var food = await _repository.Food.GetFoodById(id);
@@ -90,15 +88,15 @@ public class FoodController : ControllerBase
     }
 
     [HttpPatch("{id}/search")]
-    public async Task<IActionResult> AddSearchNamesToFoodPerGram(PostSearchNameViewModel model, int id)
+    public async Task<IActionResult> AddSearchNamesToFoodPerGram(ICollection<PostSearchNameViewModel> models, int id)
     {
         var food = await _repository.Food.GetFoodById(id);
         var searchNames = new List<SearchName>();
         var duplicateCount = 0;
-        foreach (var name in model.Names!)
+        foreach (var model in models)
         {
-            var searchName = new SearchName { Name = name, Food = food };
-            if (await _repository.SearchName.GetSearchNameByNameAndFoodId(id, name) == null)
+            var searchName = new SearchName { Name = model.Name, Food = food };
+            if (await _repository.SearchName.GetSearchNameByNameAndFoodId(id, model.Name) == null)
                 searchNames.Add(searchName);
             else duplicateCount++;
         }
@@ -134,6 +132,6 @@ public class FoodController : ControllerBase
             return CreatedAtRoute("GetByFoodId", new { id = food!.Id },
                 new { added = pieces.Count, duplicates = duplicateCount });
 
-        return StatusCode(500, "Failed to add search name to Food with id: " + id);
+        return StatusCode(500, "Failed to add pieces to Food with id: " + id);
     }
 }

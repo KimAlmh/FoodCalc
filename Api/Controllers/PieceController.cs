@@ -24,14 +24,14 @@ public class PieceController : ControllerBase
     public async Task<IActionResult> GetPiecesByFoodIdAsync(int foodId)
     {
         var piece = await _repository.Piece.GetAllPiecesByFoodId(foodId);
-        return Ok(_mapper.Map<List<PieceViewModel>>(piece));
+        return Ok(_mapper.Map<List<SimplePieceViewModel>>(piece));
     }
 
     [HttpGet("{foodId}/piece/{pieceId}")]
     public async Task<IActionResult> GetCalculatedFoodAsync(int foodId, int pieceId)
     {
         var piece = await _repository.Piece.GetPieceById(pieceId);
-        piece = FoodUtil.MultiplyByWeight(piece!);
+        piece.Food = FoodUtil.MultiplyByWeight(piece!.Food, piece.Weight);
         return Ok(_mapper.Map<PieceViewModel>(piece));
     }
 
@@ -40,11 +40,11 @@ public class PieceController : ControllerBase
     {
         var piece = await _repository.Piece.GetPieceByFoodId(foodId);
         piece!.Weight = weight;
-        piece = FoodUtil.MultiplyByWeight(piece);
+        piece.Food = FoodUtil.MultiplyByWeight(piece.Food, piece.Weight);
         return Ok(_mapper.Map<PieceViewModel>(piece));
     }
 
-    [HttpGet("/piece")]
+    [HttpGet("piece")]
     public async Task<IActionResult> ListPiecesAsync()
     {
         return Ok(await _repository.Piece.GetAllPieces());

@@ -3,16 +3,19 @@ using Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace FoodCalcApi.Migrations
+namespace Api.Migrations
 {
     [DbContext(typeof(FoodCalcContext))]
-    partial class FoodCalcDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230226160825_add_enum_to_food")]
+    partial class add_enum_to_food
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

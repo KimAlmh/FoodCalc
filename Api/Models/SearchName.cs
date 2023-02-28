@@ -12,5 +12,5 @@ public class SearchName
 
     [Required] public int FoodId { get; set; }
 
-    [Required] public Food? Food { get; set; }
+    [Required] public Food Food { get; set; }
 }

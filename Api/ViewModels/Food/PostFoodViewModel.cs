@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using Api.ViewModels.Pieces;
+using Api.ViewModels.SearchNames;
 
 namespace Api.ViewModels.Food;
 
@@ -30,9 +31,10 @@ public class PostFoodViewModel
     [Required] public double Salt { get; set; }
 
     [Required]
-    [RegularExpression(@"^G1(?:00)?$", ErrorMessage = "Must be 'G1' for 1 gram or 'G100' for 100 gram")]
-    public string? GramType { get; set; }
+    [RegularExpression(@"(G1|G100|PD)",
+        ErrorMessage = "Must be 'G1' for 1 gram, 'G100' for 100 gram or 'PD' for product")]
+    public string Type { get; set; } = null!;
 
-    public ICollection<string>? SearchNames { get; set; } = new List<string>();
-    public ICollection<PostPieceViewModel> Pieces { get; set; } = null!;
+    public ICollection<PostSearchNameViewModel>? SearchNames { get; set; } = new List<PostSearchNameViewModel>();
+    public ICollection<PostPieceViewModel>? Pieces { get; set; } = new List<PostPieceViewModel>();
 }

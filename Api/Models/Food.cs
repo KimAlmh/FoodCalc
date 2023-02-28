@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Api.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api.Models;
@@ -48,6 +49,9 @@ public class Food
     [Required]
     [Range(0, double.MaxValue, ErrorMessage = "Must be a positive number")]
     public double Salt { get; set; }
+    
+    [Required]
+    public FoodType FoodType { get; set; }
 
     public ICollection<SearchName>? SearchNames { get; set; } = new List<SearchName>();
     public ICollection<Piece>? Pieces { get; set; } = new List<Piece>();
