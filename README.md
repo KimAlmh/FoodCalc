@@ -8,7 +8,7 @@ You add the food to the database if it does not exist. Then you add the food and
 You can then see all the food and nutritional info you have eaten over a period of time.
 
 The finished project will have:  
-API and database for food data. (Made with C# ASP.NET Core)  
-API and database for user data. (Made with Java)  
-Authentication/authorzation with JWT. (Made with Java)  
-Frontend website for accessing and using the application. (Made with both Razor pages and normal html/css/js)  
+API and database for food data. (Made with C# ASP.NET Core and SQL Server)  
+API and database for user data. (Made with Java and PostgreSQL)  
+Authentication/authorzation with JWT. (Made with Java and PostgreSQL)  
+Frontend website for accessing and using the application. (Made with mix of Razor or MVC and normal html/css/js)  
