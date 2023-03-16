@@ -1,6 +1,6 @@
 # FoodCalc
 
-This is a work in progress. It will use many different languages and tools.
+This is a work in progress. It will use many different languages and tools.  
 The point of this repo is first and foremost to learn and improve.
 
 Project that you add what you have eaten in a day and it will calculate the nutritional info. 
