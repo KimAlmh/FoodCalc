@@ -7,8 +7,8 @@ Project that you add what you have eaten in a day and it will calculate the nutr
 You add the food to the database if it does not exist. Then you add the food and weight and it will save that in a database.
 You can then see all the food and nutritional info you have eaten over a period of time.
 
-The finished project will have:
-API and database for food data. (Made with C# ASP.NET Core)
-API and database for user data. (Made with Java)
-Authentication/authorzation with JWT. (Made with Java)
-Frontend website for accessing and using the application. (Made with both Razor pages and normal html/css/js)
+The finished project will have:  
+API and database for food data. (Made with C# ASP.NET Core)  
+API and database for user data. (Made with Java)  
+Authentication/authorzation with JWT. (Made with Java)  
+Frontend website for accessing and using the application. (Made with both Razor pages and normal html/css/js)  
